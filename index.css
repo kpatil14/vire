@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --bg: #050507;
+  --ink: #f0eadf;
+  --ink-soft: rgba(240, 234, 223, 0.65);
+  --ink-faint: rgba(240, 234, 223, 0.35);
+  --accent: #ffb88a;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  overscroll-behavior: none;
+  cursor: none;
+}
+
+@media (hover: none) {
+  html, body, #root { cursor: auto; }
+}
+
+.vire-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: #050507;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vire-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* ── HINT ─────────────────────────────────── */
+.vire-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 800ms ease;
+  pointer-events: none;
+}
+
+.vire-hint.vire-hide {
+  opacity: 0;
+}
+
+.vire-hint-text {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  animation: pulse 2.8s ease-in-out infinite;
+}
+
+.vire-hint-line {
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--ink-faint), transparent);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ── REVEAL TEXT (greeting after surprise) ── */
+.vire-reveal-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 12px));
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 2200ms ease, transform 2200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: 1200ms;
+  pointer-events: none;
+}
+
+.vire-reveal-text.vire-show {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.vire-greeting {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(36px, 7vw, 76px);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.1;
+  text-shadow: 0 0 40px rgba(255, 184, 138, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ── CORNER SIGNATURE ─────────────────────── */
+.vire-corner {
+  position: absolute;
+  bottom: clamp(20px, 4vw, 36px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 1600ms ease, transform 1600ms ease;
+  transition-delay: 2200ms;
+  pointer-events: none;
+}
+
+.vire-corner.vire-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.vire-mark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.vire-divider {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--ink-faint);
+}
+
+.vire-by {
+  font-family: var(--sans);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ── PROGRESS BAR ─────────────────────────── */
+.vire-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  z-index: 5;
+  transition: width 200ms ease;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── MOBILE TWEAKS ─────────────────────────── */
+@media (max-width: 480px) {
+  .vire-greeting { font-size: clamp(32px, 9vw, 56px); }
+  .vire-hint { gap: 12px; }
+  .vire-hint-line { width: 24px; }
+}
+
+/* ── REDUCED MOTION ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .vire-hint-text { animation: none; }
+  .vire-reveal-text, .vire-corner { transition-duration: 600ms; }
+}
